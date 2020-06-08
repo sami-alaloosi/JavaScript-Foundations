@@ -104,7 +104,7 @@ Then, add control flow within your function such that IF creditScore is above 74
 Hint: To drop an interest rate by 5% you can take monthlyRate and multiply it by 0.95. Similarly, to increase an interest rate by 5% you'd do monthlyRate * 1.05.
 */
 
-function mortgageCalculator3 (p, i, n) {
+function mortgageCalculator3 (p, i, n, creditScore) {
     let m = i / 12;
 let periods = n * 12;
     let n1 = Math.pow((1 + m), periods);
@@ -113,9 +113,15 @@ let numerator = n1 * n2;
 let denominator = n1 - 1;
 let monthlyRate = n2 / denominator;
 let final = (monthlyRate * p).toFixed(2);
-return final;
+if (creditScore > 740) {
+    return (final * 0.95).toFixed(2);
+} else if (creditScore > 660 && creditScore <740){
+    return final;
+} else {
+    return (final * 1.05).toFixed(2);
+}
  }
-
+console.log (mortgageCalculator3 (200000, .05, 30,900))
 
 // 🏡 Task 6: Loops
 /* Write a new function called variableInterestRate. This function should be the same as mortgageCalculator, except it should console.log the monthly payment for 10 different interest rates at 0.5% increments plus or minus 2% from the inputted interest rate. Complete these calculations using a for loop.
