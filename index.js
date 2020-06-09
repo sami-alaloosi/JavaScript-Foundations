@@ -3,7 +3,10 @@
 // 🏡 Task 1: Variables
 /* Create variables for principal, interest rate, and years. Assign them the values 200000, 0.05, and 30 respectively. Create another value called name and give it the value of your own name.
 */
-
+let principal = 200000;
+let interestRate = 0.05;
+let years = 30;
+let name = "sami-alaloosi";
 
 
 
@@ -15,7 +18,10 @@
 (2) Create another variable called `periods` and give it the value of years*12.
 */
 
+let monthlyInterestRate = interestRate / 12;
+let periods = years * 12;
 
+// first img
 
 
 // 🏡 Task 2: Harder Math
@@ -36,7 +42,18 @@ Hint #2: you'll need to use the `math` object for parts of this calculation!
 When your math is correct, monthlyRate will equal 1073.64
 */
 
+let n1 = Math.pow((1 + monthlyInterestRate), periods);
+let n2 = n1 * monthlyInterestRate;
+let numerator = n1 * n2;
+let denominator = n1 - 1;
+let monthlyRate = n2 / denominator;
 
+let final = (monthlyRate * principal).toFixed(2);
+
+console.log(final)
+
+
+// second img
 
 
 // 🏡 Task 3: Function
@@ -45,9 +62,18 @@ When your math is correct, monthlyRate will equal 1073.64
 If your name is `Oscar` mortgageCalculator() should return "Oscar, your monthly rate is 1073.64"
 */
 
+function mortgageCalculator1() {
+    let n1 = Math.pow((1 + monthlyInterestRate), periods);
+    let n2 = n1 * monthlyInterestRate;
+    let numerator = n1 * n2;
+    let denominator = n1 - 1;
+    let monthlyRate = n2 / denominator;
 
+    let final = "$" + (monthlyRate * principal).toFixed(2);
+    return `${name}, your monthly rate is ${final}`;
+}
 
-
+console.log(mortgageCalculator1())
 
 // 🏡 Task 4: Arguments and Parameters
 /* Substitute the variables in your functions for parameters such that you can substitute `P`, `I`, and `N` when you call the function.
@@ -56,20 +82,46 @@ For example,
 mortgageCalculator(200000, 0.05, 30); <-- should return 1,073.64
 */
 
+function mortgageCalculator2(p, i, n) {
+    let m = i / 12;
+    let periods = n * 12;
+    let n1 = Math.pow((1 + m), periods);
+    let n2 = n1 * m;
+    let numerator = n1 * n2;
+    let denominator = n1 - 1;
+    let monthlyRate = n2 / denominator;
+    let final = (monthlyRate * p).toFixed(2);
+    return final;
+}
 
-
-
+console.log(mortgageCalculator2(200000, .05, 30))
 
 // 🏡 Task 5: Conditionals
 /* Add another paramter to your function called credit score. This parameter will be a number between 0 and 800 (a credit score).
 
 Then, add control flow within your function such that IF creditScore is above 740, interest rate drops by 0.5%, if credit score is below 660, interest rate increases by 0.5% and if credit score is anywhere between 660 and 740 interest rate doesn't change.
 
-Hint: To drop an interest rate by 5% you can take monthlyRate and multiply it by 0.95. Similarly, to increase an interest rate by 5% you'd do monthlyRate * 1.05. 
+Hint: To drop an interest rate by 5% you can take monthlyRate and multiply it by 0.95. Similarly, to increase an interest rate by 5% you'd do monthlyRate * 1.05.
 */
 
-
-
+function mortgageCalculator3(p, i, n, creditScore) {
+    let m = i / 12;
+    let periods = n * 12;
+    let n1 = Math.pow((1 + m), periods);
+    let n2 = n1 * m;
+    let numerator = n1 * n2;
+    let denominator = n1 - 1;
+    let monthlyRate = n2 / denominator;
+    let final = (monthlyRate * p).toFixed(2);
+    if (creditScore > 740) {
+        return (final * 0.95).toFixed(2);
+    } else if (creditScore > 660 && creditScore < 740) {
+        return final;
+    } else {
+        return (final * 1.05).toFixed(2);
+    }
+}
+console.log(mortgageCalculator3(200000, .05, 30, 900))
 
 // 🏡 Task 6: Loops
 /* Write a new function called variableInterestRate. This function should be the same as mortgageCalculator, except it should console.log the monthly payment for 10 different interest rates at 0.5% increments plus or minus 2% from the inputted interest rate. Complete these calculations using a for loop.
@@ -86,6 +138,31 @@ For example, variableInterestRate(200000, 0.04, 30) should console.log:
 "{Name}, with an interest rate of 0.055, your monthly rate is $1136"
 "{Name}, with an interest rate of 0.06, your monthly rate is $1199"
 */
+
+function variableInterestRate(p, i, n) {
+    let minI = i - 0.02;
+    let maxI = i + 0.02;
+    let message;
+
+    for (let j = minI; j < maxI; j = j + .005) {
+        let m = j / 12;
+        let periods = n * 12;
+        let n1 = Math.pow((1 + m), periods);
+        let n2 = n1 * m;
+        let numerator = n1 * n2;
+        let denominator = n1 - 1;
+        let monthlyRate = n2 / denominator;
+        let userIntrestRate = j.toFixed(3)
+        let regex = /0$/;
+        let result = userIntrestRate.toString().replace(regex, "");
+        let final = Math.round((monthlyRate * p));
+        message = `${name}, with an interest rate of ${result}, your monthly rate is $${final}`
+        console.log(message);
+    }
+
+}
+variableInterestRate(200000, 0.04, 30);
+
 
 
 
@@ -104,3 +181,35 @@ For example, variableInterestRate(200000, 0.04, 30) should console.log:
 
 
 /* 🏡  Refactor your `variableInterestRate()` function to accept an array of interest rates (make sure to copy and paste as to not lose your work!) */
+
+
+
+let theName = prompt("Whats your name ?")
+let userPrincipal = +prompt("How much is the principal on that loan ?");
+let userInterestRate = +prompt("Whats the interest rate ?");
+let userYears = +prompt(" Number of years")
+
+
+function variableInterestRate2(p, i, n) {
+    let minI = i - 0.02;
+    let maxI = i + 0.02;
+    let message;
+
+    for (let j = minI; j < maxI; j = j + .005) {
+        let m = j / 12;
+        let periods = n * 12;
+        let n1 = Math.pow((1 + m), periods);
+        let n2 = n1 * m;
+        let numerator = n1 * n2;
+        let denominator = n1 - 1;
+        let monthlyRate = n2 / denominator;
+        let userIntrestRate = j.toFixed(3)
+        let regex = /0$/;
+        let result = userIntrestRate.toString().replace(regex, "");
+        let final = Math.round((monthlyRate * p));
+        message = `${theName}, with an interest rate of ${result}, your monthly rate is $${final}`
+        console.log(message);
+    }
+
+}
+variableInterestRate2(userPrincipal, userInterestRate, userYears);
